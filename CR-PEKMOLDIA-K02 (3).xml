@@ -1755,13 +1755,13 @@
             <VARIABLE NAME="%%SENTRY_OPT" VALUE="-b" />
             <VARIABLE NAME="%%SENTRY_PARM" VALUE="{&quot;env&quot;:{&quot;gf_cutoff_date&quot;:&quot;%%CUTOFFDATE&quot;,&quot;CONTROLM_JOB_ID&quot;:&quot;%%JOBNAME&quot;,&quot;CONTROLM_JOB_FLOW&quot;:&quot;%%SCHEDTAB&quot;}}" />
             <SHOUT WHEN="EXECTIME" TIME="&gt;060" URGENCY="R" DEST="EM" MESSAGE="Excedio el tiempo de ejecución, alertar al aplicativo" />
-            <INCOND NAME="PKMOLCP0GDT-TO-PKMOLCP0GDR" ODATE="ODAT" AND_OR="A" />
-            <INCOND NAME="PKMOLCP0GDX-TO-PKMOLCP0GDR" ODATE="ODAT" AND_OR="A" />
+            <INCOND NAME="PKMOLVP0GH6-TO-PKMOLCP0GDR" ODATE="ODAT" AND_OR="A" />
+            <INCOND NAME="PKMOLVP0GH7-TO-PKMOLCP0GDR" ODATE="ODAT" AND_OR="A" />
             <QUANTITATIVE NAME="DATIO_SENTRY_PE" QUANT="1" ONFAIL="R" ONOK="R" />
-            <OUTCOND NAME="PKMOLCP0GDT-TO-PKMOLCP0GDR" ODATE="ODAT" SIGN="-" />
             <OUTCOND NAME="PKMOLCP0GDR-TO-PKMOLTP0GT9" ODATE="ODAT" SIGN="+" />
-            <OUTCOND NAME="PKMOLCP0GDX-TO-PKMOLCP0GDR" ODATE="ODAT" SIGN="-" />
             <OUTCOND NAME="PKMOLCP0GDR-TO-PKMOLTP0GTI" ODATE="ODAT" SIGN="+" />
+            <OUTCOND NAME="PKMOLVP0GH6-TO-PKMOLCP0GDR" ODATE="ODAT" SIGN="-" />
+            <OUTCOND NAME="PKMOLVP0GH7-TO-PKMOLCP0GDR" ODATE="ODAT" SIGN="-" />
             <ON STMT="*" CODE="NOTOK">
                 <DOMAIL URGENCY="R" DEST="alpha-architects-pe.group@bbva.com" CC_DEST="alpha.america.soporte@bbva.com;alpha.transactions.contracts.group@bbva.com;bfbatchdistexplotacionitoperaration.mx@bbva.com" SUBJECT="KMOL Ejecucion fallida del job %%JOBNAME - Odate %%$ODATE" MESSAGE="0075ERROR Ha fallado el proceso %%JOBNAME con Odate %%$ODATE, favor de validar." ATTACH_SYSOUT="Y" />
             </ON>
@@ -1792,7 +1792,7 @@
             <VARIABLE NAME="%%NAMESPACE" VALUE="apx-batch-pe-kmol-kmolj010-01-zz-pr" />
             <VARIABLE NAME="%%TYPE" VALUE="account_loan_movements" />
             <VARIABLE NAME="%%GROUP" VALUE="01" />
-            <VARIABLE NAME="%%IMAGEVERSION" VALUE="1.29.0" />
+            <VARIABLE NAME="%%IMAGEVERSION" VALUE="1.31.0" />
             <VARIABLE NAME="%%INPUTFILENAME" VALUE="/fichtemcomp/datent/" />
             <VARIABLE NAME="%%OUTPUTCOUNTFILENAME" VALUE="/fichtemcomp/datent/KMOL_D05_%%$ODATE._count_%%TYPE..txt" />
             <VARIABLE NAME="%%OUTPUTFAILEDFILENAME" VALUE="/fichtemcomp/datent/KMOL_D05_%%$ODATE._fail_%%TYPE..txt" />
@@ -1826,9 +1826,10 @@
             <INCOND NAME="PMOLCP0014-TO-PKMOLCP0P08" ODATE="ODAT" AND_OR="A" />
             <INCOND NAME="PMOLCP0I14-TO-PKMOLCP0P08" ODATE="ODAT" AND_OR="A" />
             <QUANTITATIVE NAME="DATIO_SENTRY_PE" QUANT="1" ONFAIL="R" ONOK="R" />
-            <OUTCOND NAME="PKMOLCP0P08-TO-PKMOLVP0LH9" ODATE="ODAT" SIGN="+" />
             <OUTCOND NAME="PMOLCP0014-TO-PKMOLCP0P08" ODATE="ODAT" SIGN="-" />
             <OUTCOND NAME="PMOLCP0I14-TO-PKMOLCP0P08" ODATE="ODAT" SIGN="-" />
+            <OUTCOND NAME="PKMOLCP0P08-TO-PKMOLVP0GHP" ODATE="ODAT" SIGN="+" />
+            <OUTCOND NAME="PKMOLCP0P08-TO-PKMOLVP0GHO" ODATE="ODAT" SIGN="+" />
             <ON STMT="*" CODE="NOTOK">
                 <DOMAIL URGENCY="R" DEST="alpha-architects-pe.group@bbva.com" CC_DEST="alpha.america.soporte@bbva.com;alpha.transactions.contracts.group@bbva.com;bfbatchdistexplotacionitoperaration.mx@bbva.com" SUBJECT="KMOL Ejecucion fallida del job %%JOBNAME - Odate %%$ODATE" MESSAGE="0075ERROR Ha fallado el proceso %%JOBNAME con Odate %%$ODATE, favor de validar." ATTACH_SYSOUT="Y" />
             </ON>
@@ -1836,17 +1837,16 @@
                 <DOSHOUT URGENCY="U" MESSAGE="Job %%JOBNAME crítico con Odate %%$ODATE, llamar a soporte aplicativo - Alpha KMOL" DEST="EM" />
             </ON>
         </JOB>
-        <JOB JOBISN="0" APPLICATION="KMOL-PE-DATIO" SUB_APPLICATION="KMOL-HAMMURABI-CCR" JOBNAME="PKMOLVP0LH9" DESCRIPTION="[Hammurabi] t_kmol_lcl_loan_detail_move" CREATED_BY="P025476" RUN_AS="sentry" CRITICAL="0" TASKTYPE="Command" CYCLIC="0" NODEID="PE-SENTRY-00" INTERVAL="00001M" CMDLINE="/opt/datio/sentry-pe/dataproc_sentry.py %%SENTRY_JOB %%SENTRY_OPT '%%SENTRY_PARM'" CONFIRM="0" DAYSCAL="PEHABILE" RETRO="0" MAXWAIT="3" MAXRERUN="0" AUTOARCH="1" MAXDAYS="0" MAXRUNS="0" JAN="1" FEB="1" MAR="1" APR="1" MAY="1" JUN="1" JUL="1" AUG="1" SEP="1" OCT="1" NOV="1" DEC="1" DAYS_AND_OR="O" SHIFT="Ignore Job" SHIFTNUM="+00" SYSDB="1" IND_CYCLIC="S" CREATION_USER="XMZ0643" CREATION_DATE="20200910" CREATION_TIME="114928" CHANGE_USERID="XMZ0643" CHANGE_DATE="20201113" CHANGE_TIME="143006" RULE_BASED_CALENDAR_RELATIONSHIP="O" APPL_TYPE="OS" CM_VER="N/A" MULTY_AGENT="N" USE_INSTREAM_JCL="N" VERSION_OPCODE="N" IS_CURRENT_VERSION="Y" VERSION_SERIAL="4" VERSION_HOST="DESKTOP-7EMI8QG" CYCLIC_TOLERANCE="0" CYCLIC_TYPE="C" PARENT_FOLDER="CR-PEKMOLDIA-K02">
-            <VARIABLE NAME="%%PARM1" VALUE="%%$OYEAR-%%OMONTH-%%ODAY" />
-            <VARIABLE NAME="%%PARM2" VALUE="%%$OYEAR-%%OMONTH-%%ODAY" />
-            <VARIABLE NAME="%%SENTRY_JOB" VALUE="-ns pe.kmol.app-id-13068.pro -jn kmol-pe-spk-qlt-lclloandetailmovem-01 -o %%ORDERID" />
+        <JOB JOBISN="0" APPLICATION="KMOL-PE-DATIO" SUB_APPLICATION="KMOL-HAMMURABI-CCR" JOBNAME="PKMOLVP0GHO" DESCRIPTION="[Hammurabi Field] t_kmol_lcl_loan_detail_move" CREATED_BY="P025476" RUN_AS="sentry" CRITICAL="0" TASKTYPE="Command" CYCLIC="0" NODEID="PE-SENTRY-00" INTERVAL="00001M" CMDLINE="/opt/datio/sentry-pe/dataproc_sentry.py %%SENTRY_JOB %%SENTRY_OPT '%%SENTRY_PARM'" CONFIRM="0" DAYSCAL="PEHABILE" RETRO="0" MAXWAIT="3" MAXRERUN="0" AUTOARCH="1" MAXDAYS="0" MAXRUNS="0" JAN="1" FEB="1" MAR="1" APR="1" MAY="1" JUN="1" JUL="1" AUG="1" SEP="1" OCT="1" NOV="1" DEC="1" DAYS_AND_OR="O" SHIFT="Ignore Job" SHIFTNUM="+00" SYSDB="1" IND_CYCLIC="S" CREATION_USER="XMZ0643" CREATION_DATE="20200910" CREATION_TIME="114928" CHANGE_USERID="XMZ0643" CHANGE_DATE="20201113" CHANGE_TIME="143006" RULE_BASED_CALENDAR_RELATIONSHIP="O" APPL_TYPE="OS" CM_VER="N/A" MULTY_AGENT="N" USE_INSTREAM_JCL="N" VERSION_OPCODE="N" IS_CURRENT_VERSION="Y" VERSION_SERIAL="4" VERSION_HOST="DESKTOP-7EMI8QG" CYCLIC_TOLERANCE="0" CYCLIC_TYPE="C" PARENT_FOLDER="CR-PEKMOLDIA-K02">
+            <VARIABLE NAME="%%CUTOFFDATE" VALUE="%%$OYEAR.-%%OMONTH.-%%ODAY" />
+            <VARIABLE NAME="%%SENTRY_JOB" VALUE="-ns pe.kmol.app-id-13068.pro -jn kmol-gl-spk-qlt-lclloandtlmovementsfield-01 -o %%ORDERID" />
             <VARIABLE NAME="%%SENTRY_OPT" VALUE="-b" />
-            <VARIABLE NAME="%%SENTRY_PARM" VALUE="{&quot;env&quot;:{&quot;DATE&quot;:&quot;%%PARM1&quot;,&quot;DATEINF&quot;:&quot;%%PARM2&quot;,&quot;CONTROLM_JOB_ID&quot;:&quot;%%JOBNAME&quot;,&quot;CONTROLM_JOB_FLOW&quot;:&quot;%%SCHEDTAB&quot;}}" />
+            <VARIABLE NAME="%%SENTRY_PARM" VALUE="{&quot;env&quot;:{&quot;gf_cutoff_date&quot;:&quot;%%CUTOFFDATE&quot;,&quot;CONTROLM_JOB_ID&quot;:&quot;%%JOBNAME&quot;,&quot;CONTROLM_JOB_FLOW&quot;:&quot;%%SCHEDTAB&quot;}}" />
             <SHOUT WHEN="EXECTIME" TIME="&gt;060" URGENCY="R" DEST="EM" MESSAGE="Excedio el tiempo de ejecución, alertar al aplicativo" />
-            <INCOND NAME="PKMOLCP0P08-TO-PKMOLVP0LH9" ODATE="ODAT" AND_OR="A" />
+            <INCOND NAME="PKMOLCP0P08-TO-PKMOLVP0GHO" ODATE="ODAT" AND_OR="A" />
             <QUANTITATIVE NAME="DATIO_SENTRY_PE" QUANT="1" ONFAIL="R" ONOK="R" />
-            <OUTCOND NAME="PKMOLCP0P08-TO-PKMOLVP0LH9" ODATE="ODAT" SIGN="-" />
-            <OUTCOND NAME="PKMOLVP0LH9-TO-PKMOLCP0GDU" ODATE="ODAT" SIGN="+" />
+            <OUTCOND NAME="PKMOLCP0P08-TO-PKMOLVP0GHO" ODATE="ODAT" SIGN="-" />
+            <OUTCOND NAME="PKMOLVP0GHO-TO-PKMOLCP0GDU" ODATE="ODAT" SIGN="+" />
             <ON STMT="*" CODE="NOTOK">
                 <DOMAIL URGENCY="R" DEST="alpha-architects-pe.group@bbva.com" CC_DEST="alpha.america.soporte@bbva.com;alpha.transactions.contracts.group@bbva.com;bfbatchdistexplotacionitoperaration.mx@bbva.com" SUBJECT="KMOL Ejecucion fallida del job %%JOBNAME - Odate %%$ODATE" MESSAGE="0075ERROR Ha fallado el proceso %%JOBNAME con Odate %%$ODATE, favor de validar." ATTACH_SYSOUT="Y" />
             </ON>
@@ -1860,15 +1860,17 @@
             <VARIABLE NAME="%%SENTRY_OPT" VALUE="-b" />
             <VARIABLE NAME="%%SENTRY_PARM" VALUE="{&quot;env&quot;:{&quot;gf_cutoff_date&quot;:&quot;%%CUTOFFDATE&quot;,&quot;CONTROLM_JOB_ID&quot;:&quot;%%JOBNAME&quot;,&quot;CONTROLM_JOB_FLOW&quot;:&quot;%%SCHEDTAB&quot;}}" />
             <SHOUT WHEN="EXECTIME" TIME="&gt;060" URGENCY="R" DEST="EM" MESSAGE="Excedio el tiempo de ejecución, alertar al aplicativo" />
-            <INCOND NAME="PKMOLVP0LH9-TO-PKMOLCP0GDU" ODATE="ODAT" AND_OR="A" />
+            <INCOND NAME="PKMOLVP0GHP-TO-PKMOLCP0GDU" ODATE="ODAT" AND_OR="A" />
+            <INCOND NAME="PKMOLVP0GHO-TO-PKMOLCP0GDU" ODATE="ODAT" AND_OR="A" />
             <QUANTITATIVE NAME="DATIO_SENTRY_PE" QUANT="1" ONFAIL="R" ONOK="R" />
-            <OUTCOND NAME="PKMOLVP0LH9-TO-PKMOLCP0GDU" ODATE="ODAT" SIGN="-" />
-            <OUTCOND NAME="PKMOLCP0GDU-TO-PKMOLVP0GH7" ODATE="ODAT" SIGN="+" />  
-			<OUTCOND NAME="PKMOLCP0GDU-TO-PKMOLDP0GDL" ODATE="ODAT" SIGN="+" />
+            <OUTCOND NAME="PKMOLVP0GHP-TO-PKMOLCP0GDU" ODATE="ODAT" SIGN="-" />
+            <OUTCOND NAME="PKMOLVP0GHO-TO-PKMOLCP0GDU" ODATE="ODAT" SIGN="-" />
+            <OUTCOND NAME="PKMOLCP0GDU-TO-PKMOLVP0GH7" ODATE="ODAT" SIGN="+" />
+            <OUTCOND NAME="PKMOLCP0GDU-TO-PKMOLDP0GDL" ODATE="ODAT" SIGN="+" />
             <OUTCOND NAME="PKMOLCP0GDU-TO-PKMOLDP0GDM" ODATE="ODAT" SIGN="+" />
             <OUTCOND NAME="PKMOLCP0GDU-TO-PKMOLDP0GDN" ODATE="ODAT" SIGN="+" />
-            <OUTCOND NAME="PKMOLCP0GDU-TO-PKPFMCP0P01" ODATE="ODAT" SIGN="+" />			
-			<OUTCOND NAME="PKMOLCP0GDU-TO-PKMOLVP0GHY" ODATE="ODAT" SIGN="+" />
+            <OUTCOND NAME="PKMOLCP0GDU-TO-PKPFMCP0P01" ODATE="ODAT" SIGN="+" />
+            <OUTCOND NAME="PKMOLCP0GDU-TO-PKMOLVP0GHY" ODATE="ODAT" SIGN="+" />
             <ON STMT="*" CODE="NOTOK">
                 <DOMAIL URGENCY="R" DEST="alpha-architects-pe.group@bbva.com;team_dqh.group@bbva.com" CC_DEST="alpha.america.soporte@bbva.com;alpha.transactions.contracts.group@bbva.com;bfbatchdistexplotacionitoperaration.mx@bbva.com" SUBJECT="KMOL Ejecucion fallida del job %%JOBNAME - Odate %%$ODATE" MESSAGE="0075ERROR Ha fallado el proceso %%JOBNAME con Odate %%$ODATE, favor de validar." ATTACH_SYSOUT="Y" />
             </ON>
@@ -1939,18 +1941,16 @@
                 <DOSHOUT URGENCY="U" MESSAGE="Job %%JOBNAME crítico con Odate %%$ODATE, llamar a soporte aplicativo - Alpha KMOL" DEST="EM" />
             </ON>
         </JOB>
-        <JOB JOBISN="0" APPLICATION="KMOL-PE-DATIO" SUB_APPLICATION="KMOL-HAMMURABI-CCR" JOBNAME="PKMOLVP0GH7" DESCRIPTION="Hammurabi - t_kmol_loan_detail_movements" CREATED_BY="XP63564" RUN_AS="sentry" CRITICAL="0" TASKTYPE="Command" CYCLIC="0" NODEID="PE-SENTRY-00" INTERVAL="00001M" CMDLINE="/opt/datio/sentry-pe/dataproc_sentry.py %%SENTRY_JOB %%SENTRY_OPT '%%SENTRY_PARM'" CONFIRM="0" RETRO="0" DAYSCAL="PEHABILE" DAYS="" MAXWAIT="3" MAXRERUN="0" AUTOARCH="1" MAXDAYS="0" MAXRUNS="0" JAN="1" FEB="1" MAR="1" APR="1" MAY="1" JUN="1" JUL="1" AUG="1" SEP="1" OCT="1" NOV="1" DEC="1" DAYS_AND_OR="O" SHIFT="Ignore Job" SHIFTNUM="+00" SYSDB="1" IND_CYCLIC="S" CREATION_USER="XP63564" CREATION_DATE="20230313" CREATION_TIME="104954" RULE_BASED_CALENDAR_RELATIONSHIP="O" APPL_TYPE="OS" CM_VER="N/A" MULTY_AGENT="N" USE_INSTREAM_JCL="N" VERSION_OPCODE="N" IS_CURRENT_VERSION="Y" VERSION_SERIAL="1" VERSION_HOST="WVMCCRXA06" CYCLIC_TOLERANCE="0" CYCLIC_TYPE="C" PARENT_FOLDER="CR-PEKMOLDIA-K02">
-			<VARIABLE NAME="%%PARM1" VALUE="%%$OYEAR-%%OMONTH-%%ODAY" />
-            <VARIABLE NAME="%%PARM2" VALUE="latest" />
-            <VARIABLE NAME="%%PARM3" VALUE="pe" />
-			<VARIABLE NAME="%%SENTRY_JOB" VALUE="-ns pe.kmol.app-id-13068.pro -jn kmol-gl-spk-qlt-loandtlmovementsfield-01 -o %%ORDERID" />
+        <JOB JOBISN="0" APPLICATION="KMOL-PE-DATIO" SUB_APPLICATION="KMOL-HAMMURABI-CCR" JOBNAME="PKMOLVP0GH7" DESCRIPTION="[Hammurabi Field] t_kmol_loan_detail_movements" CREATED_BY="XP63564" RUN_AS="sentry" CRITICAL="0" TASKTYPE="Command" CYCLIC="0" NODEID="PE-SENTRY-00" INTERVAL="00001M" CMDLINE="/opt/datio/sentry-pe/dataproc_sentry.py %%SENTRY_JOB %%SENTRY_OPT '%%SENTRY_PARM'" CONFIRM="0" RETRO="0" DAYSCAL="PEHABILE" DAYS="" MAXWAIT="3" MAXRERUN="0" AUTOARCH="1" MAXDAYS="0" MAXRUNS="0" JAN="1" FEB="1" MAR="1" APR="1" MAY="1" JUN="1" JUL="1" AUG="1" SEP="1" OCT="1" NOV="1" DEC="1" DAYS_AND_OR="O" SHIFT="Ignore Job" SHIFTNUM="+00" SYSDB="1" IND_CYCLIC="S" CREATION_USER="XP63564" CREATION_DATE="20230313" CREATION_TIME="104954" RULE_BASED_CALENDAR_RELATIONSHIP="O" APPL_TYPE="OS" CM_VER="N/A" MULTY_AGENT="N" USE_INSTREAM_JCL="N" VERSION_OPCODE="N" IS_CURRENT_VERSION="Y" VERSION_SERIAL="1" VERSION_HOST="WVMCCRXA06" CYCLIC_TOLERANCE="0" CYCLIC_TYPE="C" PARENT_FOLDER="CR-PEKMOLDIA-K02">
+            <VARIABLE NAME="%%CUTOFFDATE" VALUE="%%$OYEAR.-%%OMONTH.-%%ODAY" />
+            <VARIABLE NAME="%%SENTRY_JOB" VALUE="-ns pe.kmol.app-id-13068.pro -jn kmol-gl-spk-qlt-loandtlmovementsfield-01 -o %%ORDERID" />
             <VARIABLE NAME="%%SENTRY_OPT" VALUE="-b" />
-            <VARIABLE NAME="%%SENTRY_PARM" VALUE="{&quot;env&quot;:{&quot;gf_cutoff_date&quot;:&quot;%%PARM1&quot;,&quot;SCHEMA_VERSION&quot;:&quot;%%PARM2&quot;,&quot;SCHEMA_COUNTRY&quot;:&quot;%%PARM3&quot;,&quot;CONTROLM_JOB_ID&quot;:&quot;%%JOBNAME&quot;,&quot;CONTROLM_JOB_FLOW&quot;:&quot;%%SCHEDTAB&quot;}}" />
-            <SHOUT WHEN="EXECTIME" TIME="&gt;060" URGENCY="R" DEST="EM" MESSAGE="Excedio el tiempo de ejecucion favor de alertar al aplicativo" DAYSOFFSET="0" />
+            <VARIABLE NAME="%%SENTRY_PARM" VALUE="{&quot;env&quot;:{&quot;gf_cutoff_date&quot;:&quot;%%CUTOFFDATE&quot;,&quot;CONTROLM_JOB_ID&quot;:&quot;%%JOBNAME&quot;,&quot;CONTROLM_JOB_FLOW&quot;:&quot;%%SCHEDTAB&quot;}}" />
+	    <SHOUT WHEN="EXECTIME" TIME="&gt;060" URGENCY="R" DEST="EM" MESSAGE="Excedio el tiempo de ejecucion favor de alertar al aplicativo" DAYSOFFSET="0" />
             <INCOND NAME="PKMOLCP0GDU-TO-PKMOLVP0GH7" ODATE="ODAT" AND_OR="A" />
-			<QUANTITATIVE NAME="DATIO_SENTRY_PE" QUANT="1" ONFAIL="R" ONOK="R" />            
+		<QUANTITATIVE NAME="DATIO_SENTRY_PE" QUANT="1" ONFAIL="R" ONOK="R" />            
             <OUTCOND NAME="PKMOLCP0GDU-TO-PKMOLVP0GH7" ODATE="ODAT" SIGN="-" />
-            <OUTCOND NAME="PKMOLVP0GH7-TO-PKMOLCP0GDX" ODATE="ODAT" SIGN="+" />
+            <OUTCOND NAME="PKMOLVP0GH7-TO-PKMOLCP0GDR" ODATE="ODAT" SIGN="+" />
             <OUTCOND NAME="PKMOLVP0GH7-TO-PKPFMCP0P01" ODATE="ODAT" SIGN="+" />			
             <ON STMT="*" CODE="NOTOK">
                 <DOMAIL URGENCY="R" DEST="alpha-architects-pe.group@bbva.com;team_dqh.group@bbva.com" CC_DEST="alpha.america.soporte@bbva.com;alpha.transactions.contracts.group@bbva.com;bfbatchdistexplotacionitoperaration.mx@bbva.com" SUBJECT="KMOL Ejecucion fallida del job %%JOBNAME - Odate %%$ODATE" MESSAGE="0075ERROR Ha fallado el proceso %%JOBNAME con Odate %%$ODATE, favor de validar." ATTACH_SYSOUT="Y" />
@@ -1958,24 +1958,6 @@
             <ON STMT="*" CODE="NOTOK">
                 <DOSHOUT URGENCY="U" MESSAGE="Job %%JOBNAME crítico con Odate %%$ODATE, llamar a soporte aplicativo - Alpha KMOL" DEST="EM" />
             </ON>           
-        </JOB>
-        <JOB JOBISN="0" APPLICATION="KMOL-PE-DATIO" SUB_APPLICATION="KMOL-MASTER-CCR" JOBNAME="PKMOLCP0GDX" DESCRIPTION="[Cuadre] Detalle Préstamos" CREATED_BY="P025476" RUN_AS="sentry" CRITICAL="0" TASKTYPE="Command" CYCLIC="0" NODEID="PE-SENTRY-00" INTERVAL="00001M" CMDLINE="/opt/datio/sentry-pe/dataproc_sentry.py %%SENTRY_JOB %%SENTRY_OPT '%%SENTRY_PARM'" CONFIRM="0" DAYSCAL="PEHABILE" RETRO="0" MAXWAIT="3" MAXRERUN="0" AUTOARCH="1" MAXDAYS="0" MAXRUNS="0" JAN="1" FEB="1" MAR="1" APR="1" MAY="1" JUN="1" JUL="1" AUG="1" SEP="1" OCT="1" NOV="1" DEC="1" DAYS_AND_OR="O" SHIFT="Ignore Job" SHIFTNUM="+00" SYSDB="1" IND_CYCLIC="S" CREATION_USER="XMZ0643" CREATION_DATE="20200910" CREATION_TIME="114928" CHANGE_USERID="XMZ0643" CHANGE_DATE="20210610" CHANGE_TIME="140554" RULE_BASED_CALENDAR_RELATIONSHIP="O" APPL_TYPE="OS" CM_VER="N/A" MULTY_AGENT="N" USE_INSTREAM_JCL="N" VERSION_OPCODE="N" IS_CURRENT_VERSION="Y" VERSION_SERIAL="7" VERSION_HOST="DESKTOP-MFCEN30" CYCLIC_TOLERANCE="0" CYCLIC_TYPE="C" PARENT_FOLDER="CR-PEKMOLDIA-K02">
-            <VARIABLE NAME="%%CUTOFFDATE" VALUE="%%$OYEAR.-%%OMONTH.-%%ODAY" />
-            <VARIABLE NAME="%%SENTRY_JOB" VALUE="-ns pe.kmol.app-id-13068.pro -jn kmol-gl-spk-inm-loandtlreconciliation-01 -o %%ORDERID" />
-            <VARIABLE NAME="%%SENTRY_OPT" VALUE="-b" />
-            <VARIABLE NAME="%%SENTRY_PARM" VALUE="{&quot;env&quot;:{&quot;gf_cutoff_date&quot;:&quot;%%CUTOFFDATE&quot;,&quot;CONTROLM_JOB_ID&quot;:&quot;%%JOBNAME&quot;,&quot;CONTROLM_JOB_FLOW&quot;:&quot;%%SCHEDTAB&quot;}}" />
-            <INCOND NAME="PKMOLVP0GH7-TO-PKMOLCP0GDX" ODATE="ODAT" AND_OR="A" />
-			<INCOND NAME="PKMOLVP0GHY-TO-PKMOLCP0GDX" ODATE="ODAT" AND_OR="A" />
-            <QUANTITATIVE NAME="DATIO_SENTRY_PE" QUANT="1" ONFAIL="R" ONOK="R" />
-            <OUTCOND NAME="PKMOLVP0GH7-TO-PKMOLCP0GDX" ODATE="ODAT" SIGN="-" />
-			<OUTCOND NAME="PKMOLVP0GHY-TO-PKMOLCP0GDX" ODATE="ODAT" SIGN="-" /> 
-			<OUTCOND NAME="PKMOLCP0GDX-TO-PKMOLCP0GDR" ODATE="ODAT" SIGN="+" />			           
-            <ON STMT="*" CODE="NOTOK">
-                <DOMAIL URGENCY="R" DEST="alpha-architects-pe.group@bbva.com;team_dqh.group@bbva.com" CC_DEST="alpha.america.soporte@bbva.com;alpha.transactions.contracts.group@bbva.com;bfbatchdistexplotacionitoperaration.mx@bbva.com" SUBJECT="KMOL Ejecucion fallida del job %%JOBNAME - Odate %%$ODATE" MESSAGE="0075ERROR Ha fallado el proceso %%JOBNAME con Odate %%$ODATE, favor de validar." ATTACH_SYSOUT="Y" />
-            </ON>
-            <ON STMT="*" CODE="NOTOK">
-                <DOSHOUT URGENCY="U" MESSAGE="Job %%JOBNAME crítico con Odate %%$ODATE, llamar a soporte aplicativo - Alpha KMOL" DEST="EM" />
-            </ON>
         </JOB>
         <JOB JOBISN="0" APPLICATION="KMOL-PE-MOVEMENTS" SUB_APPLICATION="INGESTA-CCR" JOBNAME="PKMOLCP0GAX" DESCRIPTION="Activación PFM - cuentas" CREATED_BY="P025451" RUN_AS="DUMMYUSR" CRITICAL="0" TASKTYPE="Dummy" CYCLIC="0" NODEID="lcvppeaxai00" INTERVAL="00001M" CONFIRM="0" DAYSCAL="PEHABILE" RETRO="0" MAXWAIT="3" MAXRERUN="0" AUTOARCH="1" MAXDAYS="0" MAXRUNS="0" JAN="1" FEB="1" MAR="1" APR="1" MAY="1" JUN="1" JUL="1" AUG="1" SEP="1" OCT="1" NOV="1" DEC="1" DAYS_AND_OR="O" SHIFT="Ignore Job" SHIFTNUM="+00" SYSDB="1" IND_CYCLIC="S" CREATION_USER="XMZ0643" CREATION_DATE="20200910" CREATION_TIME="114928" CHANGE_USERID="XMZ0643" CHANGE_DATE="20201127" CHANGE_TIME="204840" RULE_BASED_CALENDAR_RELATIONSHIP="O" APPL_TYPE="OS" MULTY_AGENT="N" USE_INSTREAM_JCL="N" VERSION_OPCODE="N" IS_CURRENT_VERSION="Y" VERSION_SERIAL="4" VERSION_HOST="DESKTOP-7EMI8QG" CYCLIC_TOLERANCE="0" CYCLIC_TYPE="C" PARENT_FOLDER="CR-PEKMOLDIA-K02">
             <INCOND NAME="PKMOLCP0GA4-TO-PKMOLCP0GAX" ODATE="ODAT" AND_OR="A" />
